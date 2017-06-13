@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>增加班级信息</title>
+	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body style="margin: 100px 100px">
+	<div class="row">
+		<div class="col-md-3" >
+			<form action="{:url('save')}" method="post">
+				<div class="form-group">
+					<label for="name">班级名称:</label>
+					<input type="text" name="name" id="name" class="form-control" value="{$klassinfo}">
+				</div>
+				<div class="form-group">
+					<label for="teacher_id">辅导员:</label>
+					<select name="teacher_id">
+						{volist name="teachers" id="_Teacher"}
+						<option value="{$_Teacher->id}">{$_Teacher->name}</option>
+						{/volist}
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">保存</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
