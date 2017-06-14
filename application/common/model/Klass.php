@@ -20,8 +20,12 @@ class Klass extends Model
 	}
 
 	public function Teacher(){
-		$teacherId=$this->teacher_id;
-		return Teacher::get($teacherId);
+		// $teacherId=$this->teacher_id;
+		// return Teacher::get($teacherId);
+
+		return $this->belongsTo('teacher');
 	}
+
+
 	
 }

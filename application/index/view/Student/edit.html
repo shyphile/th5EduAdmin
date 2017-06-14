@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑班级信息</title>
+	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body style="margin:100px 100px;">
+	<div class="row">
+		<div class="col-md-3">
+			<form action="{:url('update')}" method="post">
+				<input type="hidden" name="id" value="{$Student->id}">
+				<div class="form-group">	
+					<label for="">姓名:</label>
+					<input type="text" name="name" value="{$Student->name}" class="form-control">
+				</div>
+				<div class="form-group">	
+					<label for="">学号:</label>
+					<input type="text" name="name" value="{$Student->num}" class="form-control">
+				</div>
+				<div class="form-group">	
+					<label for="">性别:</label>
+					<input type="text" name="name" value="{$Student->sex}" class="form-control">
+				</div>
+				<div class="form-group">	
+					<label for="">电邮:</label>
+					<input type="text" name="name" value="{$Student->email}" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="">班级:</label>
+					<select name="klass_id">
+						{volist name="Student->klass->all()" id="_Klass"}
+						<option value="{$_Klass->id}" {eq name="_Klass->id" value="$Student->klass_id" }selected{/eq}>{$_Klass->name}</option>
+						{/volist}
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">保存</button>
+			</form>
+		</div>
+	</div>
+	
+</body>
+</html>
