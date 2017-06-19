@@ -1,0 +1,39 @@
+{extend name="addORedit" /}
+{block name="title"}
+{if $Teacher->id==0}
+新增辅导员信息
+{else}
+编辑辅导员信息
+{/if}
+{/block}
+{block name="content"}
+<input type="hidden" name="id" value="{$Teacher->id}">
+<div class="form-group">	
+	<label for="">姓名</label>
+	<input type="text" name="name" value="{$Teacher->name}" class="form-control">
+</div>
+<div class="form-group">	
+	<label for="">性别</label>
+	<select name="sex" class="form-control" >
+		<option value="0">男</option>
+		<option value="1" {eq name="Teacher->sex" value="women"}selected{/eq}>女</option>
+	</select>
+</div>
+<div class="form-group">	
+	<label for="">用户名</label>
+	{eq name="Teacher->id" value="0"}
+	<input type="text" name="username" value="{$Teacher->username}" class="form-control">
+	{else /}<br>{$Teacher->username}
+	{/eq}
+
+</div>
+<div class="form-group">	
+	<label for="">密码</label>
+	<input type="text" name="password" value="{$Teacher->password}" class="form-control">
+</div>
+<div class="form-group">	
+	<label for="">电邮</label>
+	<input type="text" name="email" value="{$Teacher->email}" class="form-control">
+</div>
+<button type="submit" class="btn btn-primary">保存</button>
+{/block}

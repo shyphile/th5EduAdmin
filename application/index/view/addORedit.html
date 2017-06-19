@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{block name="title"}标题{/block}</title>
+	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
+</head>
+<body style="margin:100px 100px;">
+	<div class="row">
+		<div class="col-md-3">
+			{php}$actionType=request()->action()==='add'?'save':'update';{/php}
+			<form action="{:url($actionType)}" method="post">
+				{block name="content"}{/block}
+			</form>
+		</div>
+	</div>
+</body>
+</html>

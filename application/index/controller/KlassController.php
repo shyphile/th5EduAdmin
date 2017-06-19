@@ -29,11 +29,16 @@ class KlassController extends IndexController
 		$time=time()-strtotime("2017-01-01");
 		$klassinfo='k'.$time;
 
+		$Klass=new Klass;
+		$Klass->id=0;
+		$Klass->name=$klassinfo;
+		$Klass->teacher_id=0;
+		$this->assign('Klass',$Klass);
+
 		$teachers=Teacher::all();
 		$this->assign('teachers',$teachers);
 
-		$this->assign('klassinfo',$klassinfo);
-		return $this->fetch();
+		return $this->fetch('addORedit');
 	}
 
 	public function save(){
@@ -71,7 +76,7 @@ class KlassController extends IndexController
 			return $this->error('未找到记录');
 		}
 		$this->assign('Klass',$Klass);
-		return $this->fetch();
+		return $this->fetch('addORedit');
 	}
 
 	public function update(){

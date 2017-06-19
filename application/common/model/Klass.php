@@ -26,6 +26,12 @@ class Klass extends Model
 		return $this->belongsTo('teacher');
 	}
 
+	public function getCreateTimeAttr($value){
+		return date('Y年m月d日',$value);
+	}
 
+	public function getUpdateTimeAttr($value){
+		return date('Y年m月d日',$value);
+	}
 	
 }

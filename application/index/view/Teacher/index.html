@@ -1,66 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>辅导员信息管理</title>
-	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
-	<style>
-		td,th{
-			text-align: center;
-		}
-	</style>
-</head>
-<body class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<hr>
-			<div class="row">
-				<div class="col-md-8">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="name" class="sr-only">姓名</label>
-							<input type="text" name="name" placeholder="姓名..." id="name" value="{:input('get.name')}" class="form-control">
-						</div>
-						<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>&nbsp;查询</button>
-					</form>
-				</div>
-				<div class="col-md-4 text-right">
-					<a href="{:url('add')}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>&nbsp;新增</a>
-				</div>
-			</div>
-			<hr>
-			<table class="table table-hover table-bordered">
-				<tr class="info" align="center">
-					<th>编号</th>
-					<th>姓名</th>
-					<th>性别</th>
-					<th>用户名</th>
-					<th>密码</th>
-					<th>电邮 </th>
-					<th>创建时间</th>
-					<th>更新时间</th>
-					<th>操作</th>
-				</tr>
-				{volist name="teachers" id="_Teacher"}
-				<tr>
-					<td>{$_Teacher->id}</td>
-					<td>{$_Teacher->name}</td>
-					<td>{$_Teacher->sex}</td>
-					<td>{$_Teacher->username}</td>
-					<td>{$_Teacher->password}</td>
-					<td>{$_Teacher->email}</td>
-					<td>{$_Teacher->create_time}</td>
-					<td>{$_Teacher->update_time}</td>
-					<td>
-						<a href="{:url('edit?id='.$_Teacher->id)}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
-						&nbsp;&nbsp;
-						<a href="{:url('delete?id='.$_Teacher->id)}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>
-					</td>
-				</tr>
-				{/volist}
-			</table>
-			{$teachers->render()}
-		</div>
-	</div>
-</body>
-</html>
+{extend name="index" /}
+{block name="title"}辅导员信息管理{/block}
+{block name="content"}
+<table class="table table-hover table-bordered">
+	<tr class="info" align="center">
+		<th>编号</th>
+		<th>姓名</th>
+		<th>性别</th>
+		<th>用户名</th>
+		<th>密码</th>
+		<th>电邮 </th>
+		<th>创建时间</th>
+		<th>更新时间</th>
+		<th>操作</th>
+	</tr>
+	{volist name="teachers" id="_Teacher"}
+	<tr>
+		<td>{$_Teacher->id}</td>
+		<td>{$_Teacher->name}</td>
+		<td>{$_Teacher->sex}</td>
+		<td>{$_Teacher->username}</td>
+		<td>{$_Teacher->password}</td>
+		<td>{$_Teacher->email}</td>
+		<td>{$_Teacher->create_time}</td>
+		<td>{$_Teacher->update_time}</td>
+		<td>
+			<a href="{:url('edit?id='.$_Teacher->id)}" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+			&nbsp;&nbsp;
+			<a href="{:url('delete?id='.$_Teacher->id)}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>
+		</td>
+	</tr>
+	{/volist}
+</table>
+{$teachers->render()}
+{/block}

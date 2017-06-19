@@ -1,0 +1,24 @@
+{extend name="addORedit" /}
+{block name="title"}
+{if $Klass->id==0}
+新增班级信息
+{else}
+编辑班级信息
+{/if}
+{/block}
+{block name="content"}
+<input type="hidden" name="id" value="{$Klass->id}">
+<div class="form-group">	
+	<label for="">班级姓名:</label>
+	<input type="text" name="name" value="{$Klass->name}" class="form-control">
+</div>
+<div class="form-group">
+	<label for="teacher_id">辅导员:</label>
+	<select name="teacher_id">
+		{volist name="teachers" id="_Teacher"}
+		<option value="{$_Teacher->id}" {eq name="_Teacher->id" value="$Klass->teacher_id" }selected{/eq}>{$_Teacher->name}</option>
+		{/volist}
+	</select>
+</div>
+<button type="submit" class="btn btn-primary">保存</button>
+{/block}
