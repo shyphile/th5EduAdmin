@@ -20,7 +20,11 @@ class TeacherController extends IndexController
 
 	public function delete(){
 		$id=$this->isIdExists();
-		if(!Teacher::deleteTeacherbyId($id)){
+		$result=Teacher::deleteTeacherbyId($id);
+		if($result==='hasmore'){
+			return $this->error('删除失败,该辅导员已经绑定班级');
+		}
+		if(!$result){
 			return $this->error('删除失败');
 		}
 		return $this->success('删除成功',url('index'));

@@ -64,8 +64,13 @@ class Teacher extends Model
 	public static function deleteTeacherbyId($id){
 		$Teacher=self::get($id);
 		if(!is_null($Teacher)){
-			if($Teacher->delete()){
-				return true;
+			if(empty($Teacher->checkBind)){
+				if($Teacher->delete()){
+					return true;
+				}
+			}
+			else{
+				return 'hasmore';
 			}
 		}
 		return false;
@@ -123,6 +128,10 @@ class Teacher extends Model
 			],
 			]);
 		return $teachers;
+	}
+
+	private function checkBind(){
+		return $this->hasMany('Klass');
 	}
 }
 

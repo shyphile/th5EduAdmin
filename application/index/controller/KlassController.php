@@ -9,18 +9,10 @@ use think\Request;
 class KlassController extends IndexController
 {
 	public function index(){
-		$name=Request::instance()->get('name');
-		$Klass=new Klass;
-		if(!empty($name)){
-			$Klass->where('name','like','%'.$name.'%');
-		}
-		$Klass->order('id desc');
 		$pageSize=8;
-		$klasses=$Klass->paginate($pageSize,false,[
-			"query"=>[
-			'name'=>$name,
-			],
-			]);
+		$name=Request::instance()->get('name');
+		$klasses=Klass::query($name,$pageSize);
+		
 		$this->assign('klasses',$klasses);
 		return $this->fetch();
 	}
@@ -53,16 +45,13 @@ class KlassController extends IndexController
 	}
 
 	public function delete(){
-		$id=Request::instance()->param('id/d');
-		if(is_null($id)||0===$id){
-			return $this->error('id号:'.$id.'不存在');
+		$id=$this->isIdExists();
+		$result=Klass::deleteKlassbyId($id);
+		if($result==='hasmore'){
+			return $this->error('删除失败,该班级已经绑定学生或课程表');
 		}
-		$Klass=Klass::get($id);
-		if(is_null($Klass)){
-			return $this->error('找不到这个班级');
-		}
-		if(false===$Klass->delete()){
-			return $this->error('删除失败'.$Klass->getError());
+		if(!$result){
+			return $this->error('删除失败');
 		}
 		return $this->success('删除成功',url('index'));
 	}
@@ -90,7 +79,14 @@ class KlassController extends IndexController
 			return $this->error('更新失败'.$Klass->getError());
 		}
 		return $this->success('更新成功',url('index'));
+	}
 
+	private function isIdExists(){
+		$id=Request::instance()->param('id/d');
+		if(is_null($id) || $id===0){
+			return $this->error('id号为'.$id.'的编号不存在');
+		}
+		return $id;
 	}
 
 }

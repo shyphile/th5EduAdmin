@@ -17,14 +17,14 @@
 <body>
     <div class="system-message">
         <?php switch ($code) {?>
-            <?php case 1:?>
-            <h1>:)</h1>
-            <p class="success"><?php echo(strip_tags($msg));?></p>
-            <?php break;?>
-            <?php case 0:?>
-            <h1>:(</h1>
-            <p class="error"><?php echo(strip_tags($msg));?></p>
-            <?php break;?>
+        <?php case 1:?>
+        <h1>:)</h1>
+        <p class="success"><?php echo(strip_tags($msg));?></p>
+        <?php break;?>
+        <?php case 0:?>
+        <h1>:(</h1>
+        <p class="error"><?php echo(strip_tags($msg));?></p>
+        <?php break;?>
         <?php } ?>
         <p class="detail"></p>
         <p class="jump">
@@ -34,14 +34,14 @@
     <script type="text/javascript">
         (function(){
             var wait = document.getElementById('wait'),
-                href = document.getElementById('href').href;
+            href = document.getElementById('href').href;
             var interval = setInterval(function(){
                 var time = --wait.innerHTML;
                 if(time <= 0) {
                     location.href = href;
                     clearInterval(interval);
                 };
-            }, 0);
+            }, 1);
         })();
     </script>
 </body>
