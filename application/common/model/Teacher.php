@@ -130,7 +130,7 @@ class Teacher extends Model
 		return $teachers;
 	}
 
-	private function checkBind(){
+	public function checkBind(){
 		return $this->hasMany('Klass');
 	}
 }
