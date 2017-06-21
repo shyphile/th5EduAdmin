@@ -56,7 +56,7 @@ class TeacherController extends IndexController
 		if($result){
 			return $this->success('添加成功',url('index'));
 		}
-		return $this->error('添加失败'.$Teacher->getError());
+		return $this->error('添加失败');
 	}
 
 	

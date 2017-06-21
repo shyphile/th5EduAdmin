@@ -7,6 +7,7 @@ use think\Model;
 class Klass extends Model
 {
 	public function Teacher(){
+		//会根据$this对象中的teacher_id字段 再去Teacher模型中找对应的辅导员.
 		return $this->belongsTo('Teacher');
 	}
 
@@ -37,16 +38,13 @@ class Klass extends Model
 	public static function getOneKlass($id=null){
 		if(is_null($id) || $id===0){
 			$time=time()-strtotime("2017-01-01");
-			$defaultData='T'.$time;
+			$defaultData='K'.$time;
 
 		//重构 使只用一个html兼容add和edit
 			$Klass=new Klass;
 			$Klass->id=0;
 			$Klass['name']=$defaultData;
-			$Klass->sex= 1;
-			$Klass->username= $defaultData;
-			$Klass->password= $defaultData;
-			$Klass->email= $defaultData.'@qq.com';
+			$Klass->teacher_id=1;
 		}
 		else{
 			$Klass=self::get($id);
@@ -62,12 +60,10 @@ class Klass extends Model
 		if(is_null($Klass))
 		{
 			$Klass=new Klass();
-			$Klass->username=$postData['username'];
 		}
 		$Klass['name']=$postData['name'];
-		$Klass->sex=$postData['sex'];
-		$Klass->password=$postData['password'];
-		$Klass->email=$postData['email'];
+		$Klass->teacher_id=$postData['teacher_id'];
+
 		if($Klass->validate(true)->save($Klass->getData())){
 			return true;
 		}
@@ -91,6 +87,7 @@ class Klass extends Model
 	public function checkBind(){
 		return $this->hasMany('Student');
 	}
+
 
 	
 }

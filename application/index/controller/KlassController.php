@@ -18,31 +18,12 @@ class KlassController extends IndexController
 	}
 
 	public function add(){
-		$time=time()-strtotime("2017-01-01");
-		$klassinfo='k'.$time;
-
-		$Klass=new Klass;
-		$Klass->id=0;
-		$Klass->name=$klassinfo;
-		$Klass->teacher_id=0;
+		$Klass=Klass::getOneKlass();
 		$this->assign('Klass',$Klass);
-
-		$teachers=Teacher::all();
-		$this->assign('teachers',$teachers);
-
 		return $this->fetch('addORedit');
 	}
 
-	public function save(){
-		$postData=Request::instance();
-		$Klass=new Klass;
-		$Klass->name=$postData->post('name');
-		$Klass->teacher_id=$postData->post('teacher_id/d');
-		if(!$Klass->validate(true)->save($Klass->getData())){
-			return $this->error('添加失败'.$Klass->getError());
-		}
-		return $this->success('添加成功',url('index'));
-	}
+	
 
 	public function delete(){
 		$id=$this->isIdExists();
@@ -57,28 +38,28 @@ class KlassController extends IndexController
 	}
 
 	public function edit(){
-		$id=Request::instance()->param('id/d');
-		$teachers=Teacher::all();
-		$this->assign('teachers',$teachers);
-
-		if(false===$Klass=Klass::get($id)){
-			return $this->error('未找到记录');
-		}
+		$id=$this->isIdExists();
+		$Klass=Klass::getOneKlass($id);
 		$this->assign('Klass',$Klass);
 		return $this->fetch('addORedit');
 	}
 
+	public function save(){
+		$result=$this->saveKlass();
+		if($result){
+			return $this->success('添加成功',url('index'));
+		}
+		return $this->error('添加失败');
+	}
+
 	public function update(){
-		$id=Request::instance()->post('id/d');
-		if(false===$Klass=Klass::get($id)){
-			return $this->error('记录未找到');
+		$id=$this->isIdExists();
+		$Klass=Klass::getOneKlass($id);
+		$result=$this->saveKlass($Klass);
+		if($result){
+			return $this->success('修改成功',url('index'));
 		}
-		$Klass->name=Request::instance()->post('name');
-		$Klass->teacher_id=Request::instance()->post('teacher_id');
-		if(!$Klass->validate()->save($Klass->getData())){
-			return $this->error('更新失败'.$Klass->getError());
-		}
-		return $this->success('更新成功',url('index'));
+		return $this->error('修改失败'.$Klass->getError());
 	}
 
 	private function isIdExists(){
@@ -89,4 +70,8 @@ class KlassController extends IndexController
 		return $id;
 	}
 
+	private function saveKlass($Klass=null){
+		$postData=Request::instance()->post();
+		return Klass::saveKlass($Klass,$postData);
+	}
 }

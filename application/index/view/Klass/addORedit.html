@@ -15,7 +15,7 @@
 <div class="form-group">
 	<label for="teacher_id">辅导员:</label>
 	<select name="teacher_id">
-		{volist name="teachers" id="_Teacher"}
+		{volist name="Klass->Teacher->all()" id="_Teacher"}
 		<option value="{$_Teacher->id}" {eq name="_Teacher->id" value="$Klass->teacher_id" }selected{/eq}>{$_Teacher->name}</option>
 		{/volist}
 	</select>
