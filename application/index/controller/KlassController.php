@@ -23,8 +23,6 @@ class KlassController extends IndexController
 		return $this->fetch('addORedit');
 	}
 
-	
-
 	public function delete(){
 		$id=$this->isIdExists();
 		$result=Klass::deleteKlassbyId($id);

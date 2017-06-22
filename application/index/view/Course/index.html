@@ -1,35 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>课程信息管理</title>
-	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="row">
-		<div class="col-md-12">
-			<a href="{:url('add')}">增加</a>
-			<table class="table table-hover table-bordered">
-				<tr class="info">
-					<th>序号</th>
-					<th>课程名称</th>
-					<th>创建时间</th>
-					<th>操作</th>
-				</tr>
-				{volist name="courses" id="_Course"}
-				<tr>
-					<th>{$_Course->id}</th>
-					<th>{$_Course->name}</th>
-					<th>{$_Course->create_time}</th>
-					<th>
-						<a href="{:url('edit?id='.$_Course->id)}" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
-						<a href="{:url('delete?id='.$_Course->id)}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>
-					</th>
-				</tr>
-				{/volist}
-			</table>
-			{$courses->render()}
-		</div>
-	</div>
-</body>
-</html>
+{extend name="index" /}
+{block name="title"}课程信息管理{/block}
+{block name="content"}
+<table class="table table-hover table-bordered">
+	<tr class="info">
+		<th>序号</th>
+		<th>课程名称</th>
+		<th>更新时间</th>
+		<th>操作</th>
+	</tr>
+	{volist name="courses" id="_Course"}
+	<tr>
+		<th>{$_Course->id}</th>
+		<th>{$_Course->name}</th>
+		<th>{$_Course->update_time}</th>
+		<th>
+			<a href="{:url('edit?id='.$_Course->id)}" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+			<a href="{:url('delete?id='.$_Course->id)}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>
+		</th>
+	</tr>
+	{/volist}
+</table>
+{/block}
+{block name="page"}
+{$courses->render()}
+{/block}

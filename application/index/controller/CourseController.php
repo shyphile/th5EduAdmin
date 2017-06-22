@@ -11,75 +11,65 @@ class CourseController extends IndexController
 {
 	public function index()
 	{
-		$courses=Course::paginate(4);
+		$pageSize=8;
+		$name=Request::instance()->get('name');
+		$courses=Course::query($name,$pageSize);
+		
 		$this->assign('courses',$courses);
 		return $this->fetch();
-
 	}
 
 	public function add()
 	{
-		$time=time()-strtotime("2017-01-01");
-		$courseinfo='c'.$time;
-
-		// $klasses=Klass::all();
-		// $this->assign('klasses',$klasses);
-		
-		$Course=new Course;
+		$Course=Course::getOneCourse();
 		$this->assign('Course',$Course);
+		return $this->fetch('addORedit');
+	}
 
-		$this->assign('courseinfo',$courseinfo);
-		return $this->fetch();
+	public function delete(){
+		$id=$this->isIdExists();
+		$result=Course::deleteCoursebyId($id);
+		if($result==='hasmore'){
+			return $this->error('删除失败,该课程绑定了班级');
+		}
+		if(!$result){
+			return $this->error('删除失败');
+		}
+		return $this->success('删除成功',url('index'));
+	}
+
+	private function isIdExists(){
+		$id=Request::instance()->param('id/d');
+		if(is_null($id) || $id===0){
+			return $this->error('id号为'.$id.'的编号不存在');
+		}
+		return $id;
 	}
 
 	public function save()
 	{
-		$name=Request::instance()->post('name');
-		if(is_null($name)){
-			return $this->error('什么课程名称');
+		$result=$this->saveCourse();
+		if($result){
+			return $this->success('添加成功',url('index'));
 		}
-		$Course=new Course;
-		$Course->name=$name;
-		if(!$Course->validate()->save($Course->getData())){
-			return $this->error('保存失败'.$Course->getError());
-		}
-		//return $this->success('保存成功',url('index'));
+		return $this->error('添加失败');
+	}
 
-		$Arrklass_id=Request::instance()->post('klass_id/a');
-		if(is_null($Arrklass_id)){
-			return $this->error('没选中班级');
-		}
-
-		if(!$Course->Klasses()->saveAll($Arrklass_id)){
-			return $this->error('课程-班级信息保存错误：' . $Course->Klasses()->getError());
-		}
-		// $datas=array();
-		// foreach ($Arrklass_id as $value) {
-		// 	$data=[];
-		// 	$data['klass_id']=$value;
-		// 	$data['course_id']=$Course->id;
-		// 	array_push($datas, $data);
-		// }
-		// if(!empty($datas)){
-		// 	$klasscourse=new KlassCourse;
-		// 	if(!$klasscourse->validate()->saveAll($datas)){
-		// 		return $this->error('课程-班级信息保存错误：' . $KlassCourse->getError());
-		// 	}
-		// 	unset($klasscourse);
-		// }
-		unset($Course);
-		return $this->success('操作成功', url('index'));
+	private function saveCourse($Course=null){
+		$postData=Request::instance()->post();
+		return Course::saveCourse($Course,$postData);
 	}
 
 	public function edit(){
-		$id=Request::instance()->param('id/d');
+		$id=$this->isIdExists();
 		$Course=Course::get($id);
 		$this->assign('Course',$Course);
 
-		return $this->fetch();
+		return $this->fetch('addORedit');
 	}
 
 	public function update(){
+
 		 // 获取当前课程
 		$id = Request::instance()->post('id/d');
 		if (is_null($Course = Course::get($id))) {
@@ -93,7 +83,7 @@ class CourseController extends IndexController
 		}
 
 		$map=['course_id'=>$id];
-		var_dump($Course->KlassCourses()->where($map));
+		//var_dump($Course->KlassCourses()->where($map));
 		if (false === $Course->KlassCourses()->where($map)->delete()) {
 			//return $this->error('删除班级课程关联信息发生错误' . $Course->KlassCourses()->getError());
 		}
@@ -104,7 +94,6 @@ class CourseController extends IndexController
 				return $this->error('课程-班级信息保存错误：' . $Course->Klasses()->getError());
 			}
 		}
-
 		return $this->success('更新成功', url('index'));
 	}
 

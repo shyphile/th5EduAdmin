@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>编辑课程信息</title>
-	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
-</head>
-<body style="margin:100px 100px;">
-	<div class="row">
-		<div class="col-md-3">
-			<form action="{:url('update')}" method="post">
-				<input type="hidden" name="id" value="{$Course->id}">
-				<div class="form-group">	
-					<label for="">课程名称:</label>
-					<input type="text" name="name" value="{$Course->name}" class="form-control">
-				</div>
-				<div class="form-group">
-					<label>所属班级:</label><br>
-					{volist name="Course->Klasses()->select()" id="_Klass"}
-					<input type="checkbox" name="klass_id[]" value="{$_Klass->id}" id="klass_id_{$_Klass->id}" {eq name="Course->getIsChecked($_Klass)" value="true" }checked{/eq}>
-					<label for="klass_id_{$_Klass->id}">{$_Klass->name}</label><br>
-					{/volist}
-					
-				</div>
-				<button type="submit" class="btn btn-primary">保存</button>
-			</form>
-		</div>
-	</div>
-	
-</body>
-</html>
+{extend name="addORedit" /}
+{block name="title"}
+{if $Course->id==0}
+新增课程信息
+{else}
+编辑课程信息
+{/if}
+{/block}
+{block name="content"}
+<input type="hidden" name="id" value="{$Course->id}">
+<div class="form-group">	
+	<label for="">课程名称:</label>
+	<input type="text" name="name" value="{$Course->name}" class="form-control">
+</div>
+<div class="form-group">
+	<label>所属班级:</label><br>
+	{volist name="Course->Klasses()->select()" id="_Klass"}
+	<input type="checkbox" name="klass_id[]" value="{$_Klass->id}" id="klass_id_{$_Klass->id}" {eq name="Course->getIsChecked($_Klass)" value="true" }checked{/eq}>
+	<label for="klass_id_{$_Klass->id}">{$_Klass->name}</label><br>
+	{/volist}
+
+</div>
+<button type="submit" class="btn btn-primary">保存</button>
+{/block}
