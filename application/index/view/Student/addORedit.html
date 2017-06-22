@@ -30,7 +30,7 @@
 <div class="form-group">
 	<label for="">班级:</label>
 	<select name="klass_id">
-	{volist name="Student->Klass->all()" id="_Klass"}
+	{volist name="Student->Klass()->select()" id="_Klass"}
 		<option value="{$_Klass->id}" 
 		{eq name="_Klass->id" value="$Student->klass_id" }selected{/eq}>{$_Klass->name}
 		</option>

@@ -9,7 +9,7 @@ use think\Request;
 class KlassController extends IndexController
 {
 	public function index(){
-		$pageSize=8;
+		$pageSize=6;
 		$name=Request::instance()->get('name');
 		$klasses=Klass::query($name,$pageSize);
 		

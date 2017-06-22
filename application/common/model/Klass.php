@@ -19,10 +19,11 @@ class Klass extends Model
 		return date('Y年m月d日',$value);
 	}
 
-
-	public static function deleteKlassbyId($id){
+   //errorMsg传地址的变量 可以返回对应的错误信息
+	public static function deleteKlassbyId($id,&$errorMsg=null){
 		$Klass=self::get($id);
 		if(!is_null($Klass)){
+			var_dump($Klass->checkBind);
 			if(empty($Klass->checkBind)){
 				if($Klass->delete()){
 					return true;
@@ -85,9 +86,6 @@ class Klass extends Model
 	}
 
 	public function checkBind(){
-		return $this->hasMany('Student');
+		return array_merge($this->hasMany('Student'),$this->hasMany('KlassCourse'));
 	}
-
-
-	
 }

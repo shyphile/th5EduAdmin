@@ -11,7 +11,7 @@ class CourseController extends IndexController
 {
 	public function index()
 	{
-		$pageSize=8;
+		$pageSize=6;
 		$name=Request::instance()->get('name');
 		$courses=Course::query($name,$pageSize);
 		
@@ -69,32 +69,14 @@ class CourseController extends IndexController
 	}
 
 	public function update(){
-
-		 // 获取当前课程
-		$id = Request::instance()->post('id/d');
-		if (is_null($Course = Course::get($id))) {
-			return $this->error('不存在ID为' . $id . '的记录');
-		}
-
-        // 更新课程名
-		$Course->name = Request::instance()->post('name');
-		if (is_null($Course->validate(true)->save())) {
-			return $this->error('课程信息更新发生错误：' . $Course->getError());
-		}
-
+		$id=$this->isIdExists();
+		$Course=Course::getOneCourse($id);
 		$map=['course_id'=>$id];
-		//var_dump($Course->KlassCourses()->where($map));
-		if (false === $Course->KlassCourses()->where($map)->delete()) {
-			//return $this->error('删除班级课程关联信息发生错误' . $Course->KlassCourses()->getError());
+		Course::deleteCoursebyArr($Course,$map);
+		$result=$this->saveCourse($Course);
+		if($result){
+			return $this->success('修改成功',url('index'));
 		}
-
-		$klassIds = Request::instance()->post('klass_id/a');
-		if (!is_null($klassIds)) {
-			if (!$Course->Klasses()->saveAll($klassIds)) {
-				return $this->error('课程-班级信息保存错误：' . $Course->Klasses()->getError());
-			}
-		}
-		return $this->success('更新成功', url('index'));
+		return $this->error('修改失败'.$Course->getError());
 	}
-
 }

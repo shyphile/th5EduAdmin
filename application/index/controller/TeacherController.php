@@ -9,7 +9,7 @@ class TeacherController extends IndexController
 {
 	public function index(){
 		//查询方法
-		$pageSize=8;
+		$pageSize=6;
 		$name=Request::instance()->get('name');
 		$teachers=Teacher::query($name,$pageSize);
 

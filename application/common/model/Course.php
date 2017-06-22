@@ -62,13 +62,10 @@ class Course extends Model
 	public static function deleteCoursebyId($id){
 		$Course=self::get($id);
 		if(!is_null($Course)){
-			if(empty($Course->checkBind)){
-				if($Course->delete()){
+			if($Course->delete()){
+				if(self::deleteCoursebyArr($Course,array('course_id'=>$id))){
 					return true;
 				}
-			}
-			else{
-				return 'hasmore';
 			}
 		}
 		return false;
@@ -99,5 +96,12 @@ class Course extends Model
 
 	public function getUpdateTimeAttr($value){
 		return date('Y年m月d日',$value);
+	}
+
+	public static function deleteCoursebyArr($Course,$map){
+		if (false === $Course->KlassCourses()->where($map)->delete()) {
+			return false;
+		}
+		return true;
 	}
 }
