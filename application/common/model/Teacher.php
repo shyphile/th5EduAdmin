@@ -133,6 +133,13 @@ class Teacher extends Model
 	public function checkBind(){
 		return $this->hasMany('Klass');
 	}
+
+	public static function getLoginUser(){
+		if(self::isLogin()){
+			$teacherId=session('teacherId');
+			return self::get($teacherId)->getData('name');
+		}
+	}
 }
 
 

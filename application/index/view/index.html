@@ -22,8 +22,12 @@
 			<div class="col-md-12">
 				<nav class="navbar navbar-default" role="navigation">
 					<div class="container-fluid">
-						<div class="nav-header">
-							<a class="navbar-brand" href="#">夏辉</a>
+						<div class="nav-header text-right">
+							{php}
+								$login=new app\index\controller\LoginController;
+								$name=$login->getLoginUser();
+							{/php}
+							<span class="navbar-brand">登入者:{$name}</span>
 						</div>
 						<div class="collapse navbar-collapse">
 							<ul class="nav navbar-nav">

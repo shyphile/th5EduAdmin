@@ -74,4 +74,6 @@ class TeacherController extends IndexController
 		$postData=Request::instance()->post();
 		return Teacher::saveTeacher($Teacher,$postData);
 	}
+
+	
 }

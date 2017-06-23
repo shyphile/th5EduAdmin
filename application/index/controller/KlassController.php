@@ -27,7 +27,7 @@ class KlassController extends IndexController
 		$id=$this->isIdExists();
 		$result=Klass::deleteKlassbyId($id);
 		if($result==='hasmore'){
-			return $this->error('删除失败,该班级已经绑定学生或课程表');
+			return $this->error('删除失败,该班级已经绑定学生');
 		}
 		if(!$result){
 			return $this->error('删除失败');

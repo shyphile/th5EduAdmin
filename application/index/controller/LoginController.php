@@ -28,4 +28,8 @@ class LoginController extends Controller
 		}
 		return $this->error('登出失败',url('index'));
 	}
+
+	public function getLoginUser(){
+		return Teacher::getLoginUser();
+	}
 }

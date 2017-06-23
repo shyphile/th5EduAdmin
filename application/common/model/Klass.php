@@ -23,10 +23,11 @@ class Klass extends Model
 	public static function deleteKlassbyId($id,&$errorMsg=null){
 		$Klass=self::get($id);
 		if(!is_null($Klass)){
-			var_dump($Klass->checkBind);
-			if(empty($Klass->checkBind)){
+			if(empty($Klass->checkBindStudent)){
 				if($Klass->delete()){
-					return true;
+					if(self::deleteKlassbyArr($Klass,['klass_id'=>$id])){
+						return true;
+					}
 				}
 			}
 			else{
@@ -85,7 +86,18 @@ class Klass extends Model
 		return $Klasss;
 	}
 
-	public function checkBind(){
-		return array_merge($this->hasMany('Student'),$this->hasMany('KlassCourse'));
+	public function checkBindStudent(){
+		return $this->hasMany('Student');
+	}
+
+	public function KlassCourses(){
+		return $this->hasMany('KlassCourse');
+	}
+
+	public static function deleteKlassbyArr($Klass,$map){
+		if (false === $Klass->KlassCourses()->where($map)->delete()) {
+			return false;
+		}
+		return true;
 	}
 }
