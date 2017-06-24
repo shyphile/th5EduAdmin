@@ -41,7 +41,7 @@
                     location.href = href;
                     clearInterval(interval);
                 };
-            }, 10000);
+            }, 10);
         })();
     </script>
 </body>

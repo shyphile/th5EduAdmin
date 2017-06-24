@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{block name="title"}标题{/block}</title>
-	<link rel="stylesheet" type="text/css" href="/tp5EduAdmin/public/static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css">
 	<style type="text/css">
 		{literal}
 		th,td{
@@ -15,6 +15,22 @@
 		
 		{/literal}
 	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var title=document.title;
+			var titleSubstring=title.substr(0,2);
+			var navTagUL=document.getElementById('nav_ul');
+			var navTagLI=navTagUL.getElementsByTagName('li');
+			for(var i=0;i<navTagLI.length;i++){
+				var tagAString=navTagLI[i].childNodes[0].innerHTML;
+				var tagASubstring=tagAString.substr(0,2);
+				if(tagASubstring===titleSubstring){
+					console.log(tagASubstring);
+					navTagLI[i].className="active";
+				}	
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -24,14 +40,14 @@
 					<div class="container-fluid">
 						<div class="nav-header text-right">
 							{php}
-								$login=new app\index\controller\LoginController;
-								$name=$login->getLoginUser();
+							$login=new app\index\controller\LoginController;
+							$name=$login->getLoginUser();
 							{/php}
 							<span class="navbar-brand">登入者:{$name}</span>
 						</div>
 						<div class="collapse navbar-collapse">
-							<ul class="nav navbar-nav">
-								<li class="active"><a href="{:url('Teacher/index')}">辅导员管理</a></li>
+							<ul class="nav navbar-nav" id="nav_ul">
+								<li class=""><a href="{:url('Teacher/index')}">辅导员管理</a></li>
 								<li class=""><a href="{:url('Klass/index')}">班级管理</a></li>
 								<li class=""><a href="{:url('Student/index')}">学生管理</a></li>
 								<li class=""><a href="{:url('Course/index')}">课程管理</a></li>
@@ -71,5 +87,9 @@
 			</div>
 		</div>
 	</div>
+
+
+
 </body>
+
 </html>
